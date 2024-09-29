@@ -1,0 +1,30 @@
+modules = ["python-3.11"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Run Transcriber"
+
+[[workflows.workflow]]
+name = "Run Transcriber"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py \"https://samplelib.com/lib/preview/mp3/sample-3s.mp3\""
+
+[deployment]
+run = ["sh", "-c", "python main.py \"https://samplelib.com/lib/preview/mp3/sample-3s.mp3\""]
