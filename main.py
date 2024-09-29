@@ -16,10 +16,16 @@ def main():
         audio_processor = AudioProcessor(args.url)
         transcriber = Transcriber()
 
+        print("Starting audio processing and transcription...")
+
         for audio_chunk in audio_processor.stream_audio():
+            print("Processing audio chunk...")
             transcription = transcriber.transcribe(audio_chunk)
             if transcription:
+                print(f"Transcribed: {transcription}")
                 print(transcription, end='', flush=True)
+
+        print("Finished processing all audio.")
 
     except Exception as e:
         logger.error(f"An error occurred: {str(e)}")

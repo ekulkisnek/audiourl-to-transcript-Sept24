@@ -1,4 +1,4 @@
-from openai import whisper
+import whisper
 import numpy as np
 import logging
 
