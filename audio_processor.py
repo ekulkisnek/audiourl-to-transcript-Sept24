@@ -10,6 +10,7 @@ class AudioProcessor:
         self.logger = logging.getLogger(__name__)
 
     def stream_audio(self):
+        print("Starting audio streaming...")
         try:
             # Start a streaming request
             response = requests.get(self.url, stream=True)
@@ -24,15 +25,18 @@ class AudioProcessor:
                 .run_async(pipe_stdin=True, pipe_stdout=True, pipe_stderr=True)
             )
 
+            print("Received response from URL, starting to process chunks...")
             buffer = io.BytesIO()
             for chunk in response.iter_content(chunk_size=4096):
                 if chunk:
                     process.stdin.write(chunk)
                     buffer.write(process.stdout.read(4096))
+                    print("Processed a chunk of audio data...")
 
                     if buffer.tell() > 32000:  # Process in ~2 second chunks
                         buffer.seek(0)
                         audio = AudioSegment.from_wav(buffer)
+                        print("Yielding processed audio chunk...")
                         yield audio.raw_data
                         buffer.seek(0)
                         buffer.truncate()
@@ -41,7 +45,10 @@ class AudioProcessor:
             if buffer.tell() > 0:
                 buffer.seek(0)
                 audio = AudioSegment.from_wav(buffer)
+                print("Yielding processed audio chunk...")
                 yield audio.raw_data
+
+            print("Finished streaming and processing audio.")
 
         except requests.RequestException as e:
             self.logger.error(f"Error fetching content: {str(e)}")
