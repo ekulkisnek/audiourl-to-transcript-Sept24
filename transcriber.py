@@ -4,7 +4,7 @@ import logging
 
 class Transcriber:
     def __init__(self, model_name="base"):
-        self.model = whisper.load_model(model_name)
+        self.model = whisper.load_model(model_name, device="cpu", download_root=None, weights_only=True)
         self.logger = logging.getLogger(__name__)
 
     def transcribe(self, audio_chunk):

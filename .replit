@@ -23,6 +23,10 @@ args = "Run Transcriber Without URL"
 task = "workflow.run"
 args = "Run Transcriber With URL"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Run Transcriber With Sample URL"
+
 [[workflows.workflow]]
 name = "Run Transcriber"
 author = "agent"
@@ -47,6 +51,17 @@ args = "python main.py"
 
 [[workflows.workflow]]
 name = "Run Transcriber With URL"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py \"https://samplelib.com/lib/preview/mp3/sample-3s.mp3\""
+
+[[workflows.workflow]]
+name = "Run Transcriber With Sample URL"
 author = "agent"
 
 [workflows.workflow.metadata]
