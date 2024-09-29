@@ -9,8 +9,14 @@ def main():
     logger = logging.getLogger(__name__)
 
     parser = argparse.ArgumentParser(description="Real-time transcription of streaming video/audio content.")
-    parser.add_argument("url", help="URL of the video/audio stream")
+    parser.add_argument("url", help="URL of the video/audio stream", nargs='?')
     args = parser.parse_args()
+
+    print(f"Using URL: {args.url}")
+
+    if not args.url:
+        print("Error: No URL provided. Please provide a URL as an argument.")
+        return
 
     try:
         audio_processor = AudioProcessor(args.url)
